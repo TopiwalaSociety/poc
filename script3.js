@@ -69,7 +69,7 @@ function loader() {
     const rect = originalImage.getBoundingClientRect();
     const clickX = event.clientX - rect.left;
     const clickY = event.clientY - rect.top;
-    alert('clickX: ' + clickX + ' clickY: ' + clickY);
+    //alert('clickX: ' + clickX + ' clickY: ' + clickY);
 
     console.log(`Clicked at (${clickX}, ${clickY})`);
 
