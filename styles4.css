@@ -1,0 +1,145 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: none;
+}
+
+header {
+  width: 100%;
+  height: auto; /* Allow header to adjust based on content */
+  overflow: hidden;
+}
+
+.banner-image {
+  width: 100%;
+  height: auto; /* Ensure the banner scales proportionally */
+}
+
+.menu-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+  flex-wrap: wrap; /* Allow menu items to wrap on smaller screens */
+}
+
+.menu-icon {
+  width: 40%; /* Make menu icons responsive */
+  height: auto; /* Maintain aspect ratio */
+  max-width: 260px; /* Limit maximum size */
+  cursor: pointer;
+  margin: 10px 0; /* Add spacing between icons */
+}
+
+.image-container {
+  width: 90%; /* Make container responsive */
+  max-width: 1020px; /* Limit maximum size */
+  height: auto; /* Allow height to adjust based on content */
+  margin: 20px auto; /* Center the container */
+  text-align: center;
+  position: relative;
+}
+
+.image-container img {
+  width: 100%; /* Make images responsive */
+  height: auto; /* Maintain aspect ratio */
+  max-width: 797px; /* Limit maximum size */
+  object-fit: cover;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: auto;
+  max-width: 797px;
+}
+
+#india {
+  opacity: 0; /* Hide the image initially */
+  pointer-events: none; /* Disable clicks when hidden */
+  display: none; /* Ensure the image is not displayed */
+  transition: opacity 2s ease-in-out; /* Smooth fade-in transition */
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: auto;
+  max-width: 797px;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.overlay-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%; /* Make overlay content responsive */
+  max-width: 800px; /* Limit maximum size */
+  max-height: 80vh; /* Limit height to viewport height */
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid */
+  gap: 10px;
+}
+
+.overlay-content div {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.back-arrow {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 30px;
+  height: 30px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.back-arrow::before {
+  content: '<<';
+  font-size: 20px;
+  color: #000;
+}
+
+/* Media Queries for Mobile Optimization */
+@media (max-width: 768px) {
+  .menu-container {
+    flex-direction: column; /* Stack menu icons vertically */
+    align-items: center;
+  }
+
+  .menu-icon {
+    width: 80%; /* Increase size for better touch targets */
+    margin: 10px 0;
+  }
+
+  .overlay-content {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Adjust grid for smaller screens */
+  }
+}

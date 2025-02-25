@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real Estate Expo</title>
+  <link rel="stylesheet" href="styles4.css">
+</head>
+<body>
+  <header>
+    <img src="banner.png" alt="Banner Image" class="banner-image">
+  </header>
+
+  <div class="menu-container">
+    <img src="location.png" alt="Search by Location" class="menu-icon" onclick="load_location()">
+    <img src="developer.png" alt="Search by Developer" class="menu-icon" onclick="load_developers()">
+  </div>
+
+  <div class="image-container">
+    <img src="india.jpg" alt="India" id="india">
+    <img src="mumbai.jpg" alt="Mumbai" id="mumbai" class="hidden">
+    <img src="pune.jpg" alt="Pune" id="pune" class="hidden">
+    <img src="hyderabad.jpg" alt="Hyderabad" id="hyderabad" class="hidden">
+    <img src="kolkata.jpg" alt="Kolkata" id="kolkata" class="hidden">
+    <img src="delhi.jpg" alt="Delhi" id="delhi" class="hidden">
+    <img src="bangalore.jpg" alt="Bangalore" id="bangalore" class="hidden">
+    <img src="chennai.jpg" alt="Chennai" id="chennai" class="hidden">
+  </div>
+
+  <div class="overlay" id="overlay">
+    <div class="overlay-content" id="overlay-content">
+      <!-- Developers list will be populated here -->
+    </div>
+  </div>
+
+  <script src="script4.js"></script>
+</body>
+</html>
