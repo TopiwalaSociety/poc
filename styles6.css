@@ -20,8 +20,8 @@ body {
   background-image: url('mumbai-banner.png');
   background-size: cover;
   background-position: center;
-  /*height: 351px; /* Match the height of the banner image */
- /*width: 1160px; /* Match the width of the banner image */
+  height: 351px; /* Match the height of the banner image */
+  width: 1160px; /* Match the width of the banner image */
   display: flex;
   align-items: center;
   justify-content: center;
