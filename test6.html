@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Prototype</title>
+  <link rel="stylesheet" href="styles6.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Banner -->
+    <div class="banner">
+      <h1>Mumbai Real Estate Expo</h1>
+    </div>
+
+    <!-- Links -->
+    <div class="links">
+      <a href="#" id="search-by-location">Search By Location</a>
+      <a href="#" id="search-by-developer" onclick="load_developers()">Search By Developer</a>
+    </div>
+	<!-- Overlay for Developers -->
+<div id="overlay" class="hidden">
+  <div id="overlay-content">
+    <!-- Buttons for developers will be dynamically added here -->
+  </div>
+</div>
+
+    <!-- Mumbai Map Div -->
+    <div id="mumbai-map-div" class="hidden">
+      <img src="mumbai-suburb-map.jpg" alt="Mumbai Suburb Map" id="mumbai-map">
+      <button id="Goregaon" class="map-button" style="top: 530px; left: 250px;"></button>
+      <button id="Andheri" class="map-button" style="top: 660px; left: 400px;"></button>
+    </div>
+
+    <!-- Suburb Div -->
+    <div id="suburb-div" class="hidden">
+      <div class="nav-link"><a href="#" class="previous-link">&lt;&lt; Previous</a></div>
+      <h2 id="suburb-title">Choose Location within <span id="suburb-name"></span></h2>
+      <div class="image-grid">
+        <div class="image-placeholder" data-index="1"></div>
+        <div class="image-placeholder" data-index="2"></div>
+        <div class="image-placeholder" data-index="3"></div>
+        <div class="image-placeholder" data-index="4"></div>
+        <div class="image-placeholder" data-index="5"></div>
+        <div class="image-placeholder" data-index="6"></div>
+        <div class="image-placeholder" data-index="7"></div>
+        <div class="image-placeholder" data-index="8"></div>
+      </div>
+    </div>
+
+    <!-- Locality Div -->
+    <div id="locality-div" class="hidden">
+      <div class="nav-link"><a href="#" class="previous-link">&lt;&lt; Previous</a></div>
+      <div class="image-grid">
+        <div class="image-placeholder" data-index="1"></div>
+        <div class="image-placeholder" data-index="2"></div>
+        <div class="image-placeholder" data-index="3"></div>
+        <div class="image-placeholder" data-index="4"></div>
+        <div class="image-placeholder" data-index="5"></div>
+        <div class="image-placeholder" data-index="6"></div>
+        <div class="image-placeholder" data-index="7"></div>
+        <div class="image-placeholder" data-index="8"></div>
+        <div class="image-placeholder" data-index="9"></div>
+        <div class="image-placeholder" data-index="10"></div>
+      </div>
+    </div>
+
+    <!-- Projects Div -->
+    <div id="projects-div" class="hidden">
+      <div class="nav-link"><a href="#" class="previous-link">&lt;&lt; Previous</a></div>
+      <h2 id="projects-title">Projects in <span id="locality-name"></span></h2>
+      <div class="image-grid">
+        <div class="image-placeholder" data-index="1"></div>
+        <div class="image-placeholder" data-index="2"></div>
+        <div class="image-placeholder" data-index="3"></div>
+        <div class="image-placeholder" data-index="4"></div>
+        <div class="image-placeholder" data-index="5"></div>
+        <div class="image-placeholder" data-index="6"></div>
+        <div class="image-placeholder" data-index="7"></div>
+        <div class="image-placeholder" data-index="8"></div>
+      </div>
+    </div>
+
+    <!-- Project Details Div -->
+    <div id="project-details-div" class="hidden">
+      <div class="nav-link"><a href="#" class="previous-link">&lt;&lt; Previous</a></div>
+      <div class="image-container">
+        <img src="" alt="Project Image" id="project-image">
+        <a href="#" id="prev-image">&lt;&lt;</a>
+        <a href="#" id="next-image">&gt;&gt;</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="script6.js"></script>
+</body>
+</html>
