@@ -9,7 +9,6 @@ const suburbName = document.getElementById('suburb-name');
 const projectImage = document.getElementById('project-image');
 const prevImageLink = document.getElementById('prev-image');
 const nextImageLink = document.getElementById('next-image');
-// DOM Elements
 const overlay = document.getElementById("overlay");
 const overlayContent = document.getElementById("overlay-content");
 
@@ -23,25 +22,16 @@ const developers = [
   "Century Real Estate", "India Bulls"
 ];
 
-// Distinct colors for buttons
-const colors = [
-  "#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#33FFF5",
-  "#F5FF33", "#A133FF", "#FF3333", "#33FFA1", "#5733FF",
-  "#FFC300", "#C70039", "#900C3F", "#581845", "#1A5276",
-  "#1E8449", "#B03A2E", "#6C3483", "#1F618D", "#A93226"
-];
-
 // Function to load developers into the overlay
 function load_developers() {
   // Clear existing content
   overlayContent.innerHTML = "";
 
   // Create buttons for each developer
-  developers.forEach((dev, index) => {
+  developers.forEach((dev) => {
     const button = document.createElement("button");
     button.textContent = dev;
     button.classList.add("developer-button");
-    button.style.backgroundColor = colors[index % colors.length]; // Assign distinct colors
     overlayContent.appendChild(button);
   });
 
@@ -67,16 +57,13 @@ document.getElementById('search-by-location').addEventListener('click', () => {
   mumbaiMapDiv.classList.remove('hidden');
 });
 
-document.getElementById('Goregaon').addEventListener('click', () => {
-  mumbaiMapDiv.classList.add('hidden');
-  suburbDiv.classList.remove('hidden');
-  suburbName.textContent = 'Goregaon';
-});
-
-document.getElementById('Andheri').addEventListener('click', () => {
-  mumbaiMapDiv.classList.add('hidden');
-  suburbDiv.classList.remove('hidden');
-  suburbName.textContent = 'Andheri';
+// Add event listeners for suburb buttons
+document.querySelectorAll('.map-button').forEach((button) => {
+  button.addEventListener('click', () => {
+    mumbaiMapDiv.classList.add('hidden');
+    suburbDiv.classList.remove('hidden');
+    suburbName.textContent = button.id;
+  });
 });
 
 document.querySelectorAll('#suburb-div .image-placeholder').forEach((placeholder) => {

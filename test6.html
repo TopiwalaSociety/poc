@@ -10,7 +10,7 @@
   <div class="container">
     <!-- Banner -->
     <div class="banner">
-      <h1>Mumbai Real Estate Expo...</h1>
+      <h1>Mumbai Real Estate Expo</h1>
     </div>
 
     <!-- Links -->
@@ -18,24 +18,46 @@
       <a href="#" id="search-by-location">Search By Location</a>
       <a href="#" id="search-by-developer" onclick="load_developers()">Search By Developer</a>
     </div>
-	<!-- Overlay for Developers -->
-<div id="overlay" class="hidden">
-  <div id="overlay-content">
-    <!-- Buttons for developers will be dynamically added here -->
-  </div>
-</div>
+
+    <!-- Overlay for Developers -->
+    <div id="overlay" class="hidden">
+      <div id="overlay-content">
+        <!-- Buttons for developers will be dynamically added here -->
+      </div>
+    </div>
 
     <!-- Mumbai Map Div -->
     <div id="mumbai-map-div" class="hidden">
       <img src="mumbai-suburb-map.jpg" alt="Mumbai Suburb Map" id="mumbai-map">
-      <button id="Goregaon" class="map-button" style="top: 530px; left: 250px;"></button>
-      <button id="Andheri" class="map-button" style="top: 660px; left: 400px;"></button>
+      <!-- Buttons for suburbs -->
+      <button id="Dahisar-West" class="map-button" style="top: 235px; left: 325px;"></button>
+      <button id="Dahisar-East" class="map-button" style="top: 217px; left: 418px;"></button>
+      <button id="Borivali-West" class="map-button" style="top: 312px; left: 311px;"></button>
+      <button id="Kandivali-West" class="map-button" style="top: 370px; left: 276px;"></button>
+      <button id="Malad-West" class="map-button" style="top: 452px; left: 275px;"></button>
+      <button id="Goregaon-West" class="map-button" style="top: 534px; left: 293px;"></button>
+      <button id="Jogeshwari-West" class="map-button" style="top: 599px; left: 306px;"></button>
+      <button id="Andheri-West" class="map-button" style="top: 642px; left: 238px;"></button>
+      <button id="Parle-West" class="map-button" style="top: 681px; left: 274px;"></button>
+      <button id="Santacruz-West" class="map-button" style="top: 779px; left: 252px;"></button>
+      <button id="Khar-West" class="map-button" style="top: 824px; left: 247px;"></button>
+      <button id="Bandra-West" class="map-button" style="top: 867px; left: 241px;"></button>
+      <button id="Goregaon-East" class="map-button" style="top: 541px; left: 452px;"></button>
+      <button id="Jogeshwari-East" class="map-button" style="top: 629px; left: 435px;"></button>
+      <button id="Borivali-East" class="map-button" style="top: 276px; left: 405px;"></button>
+      <button id="Bhandup-East" class="map-button" style="top: 585px; left: 723px;"></button>
+      <button id="Ghatkopar-West" class="map-button" style="top: 756px; left: 541px;"></button>
+      <button id="Sion" class="map-button" style="top: 919px; left: 440px;"></button>
+      <button id="Thane-West" class="map-button" style="top: 368px; left: 750px;"></button>
+      <button id="Dadar-East" class="map-button" style="top: 1009px; left: 412px;"></button>
+      <button id="Parel" class="map-button" style="top: 1054px; left: 312px;"></button>
+      <button id="Ghatkopar-East" class="map-button" style="top: 799px; left: 653px;"></button>
     </div>
 
     <!-- Suburb Div -->
     <div id="suburb-div" class="hidden">
-      <div class="nav-link"><a href="#" class="previous-link">&lt;&lt; Previous</a></div>
-      <h2 id="suburb-title">Choose Location within <span id="suburb-name"></span></h2>
+      <div class="nav-link"><a href="#" class="previous-link"><img src="previous.png" alt="Previous"></a></div>
+      <h2 id="suburb-title">Locations within <span id="suburb-name"></span></h2>
       <div class="image-grid">
         <div class="image-placeholder" data-index="1"></div>
         <div class="image-placeholder" data-index="2"></div>
@@ -50,7 +72,7 @@
 
     <!-- Locality Div -->
     <div id="locality-div" class="hidden">
-      <div class="nav-link"><a href="#" class="previous-link">&lt;&lt; Previous</a></div>
+      <div class="nav-link"><a href="#" class="previous-link"><img src="previous.png" alt="Previous"></a></div>
       <div class="image-grid">
         <div class="image-placeholder" data-index="1"></div>
         <div class="image-placeholder" data-index="2"></div>
@@ -67,7 +89,7 @@
 
     <!-- Projects Div -->
     <div id="projects-div" class="hidden">
-      <div class="nav-link"><a href="#" class="previous-link">&lt;&lt; Previous</a></div>
+      <div class="nav-link"><a href="#" class="previous-link"><img src="previous.png" alt="Previous"></a></div>
       <h2 id="projects-title">Projects in <span id="locality-name"></span></h2>
       <div class="image-grid">
         <div class="image-placeholder" data-index="1"></div>
@@ -83,7 +105,7 @@
 
     <!-- Project Details Div -->
     <div id="project-details-div" class="hidden">
-      <div class="nav-link"><a href="#" class="previous-link">&lt;&lt; Previous</a></div>
+      <div class="nav-link"><a href="#" class="previous-link"><img src="previous.png" alt="Previous"></a></div>
       <div class="image-container">
         <img src="" alt="Project Image" id="project-image">
         <a href="#" id="prev-image">&lt;&lt;</a>

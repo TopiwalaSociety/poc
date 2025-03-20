@@ -20,8 +20,8 @@ body {
   background-image: url('mumbai-banner.png');
   background-size: cover;
   background-position: center;
-  height: 351px; /* Match the height of the banner image */
-  width: 1160px; /* Match the width of the banner image */
+  height: 351px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -104,13 +104,19 @@ body {
 
 .map-button {
   position: absolute;
-  width: 30px; /* Perfectly round buttons */
-  height: 30px; /* Perfectly round buttons */
+  width: 30px;
+  height: 30px;
   background-color: rgba(255, 0, 0, 0.5);
   border: none;
-  border-radius: 50%; /* Makes the button perfectly round */
+  border-radius: 50%;
   cursor: pointer;
+  transition: transform 0.1s ease;
 }
+
+.map-button:active {
+  transform: scale(0.9);
+}
+
 /* Overlay Styles */
 #overlay {
   display: none;
@@ -142,12 +148,15 @@ body {
 .developer-button {
   padding: 10px 20px;
   border: none;
-  border-radius: 25px; /* Cylindrical shape */
+  border-radius: 25px;
   color: white;
   font-weight: bold;
   cursor: pointer;
   text-align: center;
   font-size: 14px;
+  background-color: #1E8449; /* Default color */
+  width: 100%;
+  margin: 5px 0;
 }
 
 /* Responsive Design */
