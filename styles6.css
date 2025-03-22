@@ -42,10 +42,64 @@ body {
   font-weight: bold;
 }
 
+/* Ensure hidden class works correctly */
 .hidden {
-  display: none;
+  display: none !important; /* Force override any other display property */
 }
 
+#developers-div:not(.hidden) {
+  display: block !important; /* Ensure developers-div is visible when not hidden */
+}
+
+#mumbai-map-div {
+  position: relative;
+  width: 100%;
+  overflow: auto;
+}
+
+#mumbai-map {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.map-button {
+  position: absolute;
+  width: 20px; /* Fixed size for buttons */
+  height: 20px;
+  background-color: rgba(255, 0, 0, 0.8);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s ease, background-color 0.1s ease;
+}
+
+.map-button:active {
+  transform: scale(0.9);
+  background-color: rgba(255, 0, 0, 1);
+}
+
+@media (max-width: 600px) {
+  .map-button {
+    width: 15px; /* Smaller buttons for mobile */
+    height: 15px;
+  }
+}
+
+/* Additional styles for other divs */
+#suburb-div:not(.hidden) {
+  display: block !important;
+}
+#locality-div,
+#projects-div,
+#project-details-div,
+#hot-deals-div,
+#developers-div {
+  display: none; /* Hide all divs by default */
+}
+
+/* Ensure image placeholders are styled */
 .image-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -81,7 +135,8 @@ body {
   height: auto;
 }
 
-#prev-image, #next-image {
+#prev-image,
+#next-image {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -98,42 +153,7 @@ body {
   right: 10px;
 }
 
-#mumbai-map-div {
-  position: relative;
-  overflow: auto;
-  width: 100%; /* Ensure the container takes full width */
-}
-
-#mumbai-map {
-  width: 100%;
-  height: auto;
-  display: block; /* Ensure the image behaves as a block element */
-}
-
-.map-button {
-  position: absolute;
-  width: 20px; /* Fixed size for buttons */
-  height: 20px; /* Fixed size for buttons */
-  background-color: rgba(255, 0, 0, 0.8);
-  border: 2px solid #fff;
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  transition: transform 0.1s ease, background-color 0.1s ease;
-}
-
-.map-button:active {
-  transform: scale(0.9);
-  background-color: rgba(255, 0, 0, 1);
-}
-
-@media (max-width: 600px) {
-  .map-button {
-    width: 15px; /* Smaller buttons for mobile */
-    height: 15px;
-  }
-}
-
+/* Developer buttons */
 .developers-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -159,16 +179,4 @@ body {
 
 .developer-button:nth-child(even) {
   background-color: #e74c3c;
-}
-
-@media (max-width: 600px) {
-  .links {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .map-button {
-    width: 20px;
-    height: 20px;
-  }
 }
