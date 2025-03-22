@@ -192,7 +192,7 @@ window.addEventListener('resize', adjustButtonPositions);
 
 // Hide all divs function
 function hideAllDivs() {
-  console.log("Hiding all divs...");
+  console.log("Hiding all the divs...");
   mumbaiMapDiv.classList.add('hidden');
   suburbDiv.classList.add('hidden');
   localityDiv.classList.add('hidden');
