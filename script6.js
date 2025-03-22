@@ -77,6 +77,25 @@ document.getElementById('search-by-developer').addEventListener('click', (e) => 
   loadDevelopers();
 });
 
+document.getElementById('hot-deals-link').addEventListener('click', (e) => {
+  console.log("Hot Deals clicked!");
+  e.preventDefault();
+  hideAllDivs();
+  hotDealsDiv.classList.remove('hidden');
+
+  // Log the class list and computed display style
+  console.log("hotDealsDiv class list:", hotDealsDiv.classList);
+  console.log("hotDealsDiv display:", window.getComputedStyle(hotDealsDiv).display);
+
+  // Log visibility of all divs for debugging
+  console.log("mumbaiMapDiv display:", window.getComputedStyle(mumbaiMapDiv).display);
+  console.log("suburbDiv display:", window.getComputedStyle(suburbDiv).display);
+  console.log("localityDiv display:", window.getComputedStyle(localityDiv).display);
+  console.log("projectsDiv display:", window.getComputedStyle(projectsDiv).display);
+  console.log("projectDetailsDiv display:", window.getComputedStyle(projectDetailsDiv).display);
+  console.log("developersDiv display:", window.getComputedStyle(developersDiv).display);
+});
+
 // Function to handle map button clicks
 function handleMapButtonClick(pos) {
   console.log(`Map button ${pos.id} clicked!`);
@@ -180,6 +199,9 @@ document.querySelectorAll('.previous-link').forEach((link) => {
       // If projectDetailsDiv is visible, go back to projectsDiv
       hideAllDivs();
       projectsDiv.classList.remove('hidden');
+    } else if (!hotDealsDiv.classList.contains('hidden')) {
+      // If hotDealsDiv is visible, hide all divs
+      hideAllDivs();
     } else if (!developersDiv.classList.contains('hidden')) {
       // If developersDiv is visible, hide all divs
       hideAllDivs();
@@ -192,7 +214,7 @@ window.addEventListener('resize', adjustButtonPositions);
 
 // Hide all divs function
 function hideAllDivs() {
-  console.log("Hiding all the divs...");
+  console.log("Hiding all divs...");
   mumbaiMapDiv.classList.add('hidden');
   suburbDiv.classList.add('hidden');
   localityDiv.classList.add('hidden');

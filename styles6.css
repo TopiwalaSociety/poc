@@ -47,8 +47,26 @@ body {
   display: none !important; /* Force override any other display property */
 }
 
+/* Ensure all divs are hidden by default */
+#mumbai-map-div,
+#suburb-div,
+#locality-div,
+#projects-div,
+#project-details-div,
+#hot-deals-div,
+#developers-div {
+  display: none;
+}
+
+/* Ensure divs are visible when not hidden */
+#mumbai-map-div:not(.hidden),
+#suburb-div:not(.hidden),
+#locality-div:not(.hidden),
+#projects-div:not(.hidden),
+#project-details-div:not(.hidden),
+#hot-deals-div:not(.hidden),
 #developers-div:not(.hidden) {
-  display: block !important; /* Ensure developers-div is visible when not hidden */
+  display: block !important;
 }
 
 #mumbai-map-div {
@@ -65,7 +83,7 @@ body {
 
 .map-button {
   position: absolute;
-  width: 20px; /* Fixed size for buttons */
+  width: 20px; /* Default size for desktop */
   height: 20px;
   background-color: rgba(255, 0, 0, 0.8);
   border: 2px solid #fff;
@@ -85,18 +103,6 @@ body {
     width: 15px; /* Smaller buttons for mobile */
     height: 15px;
   }
-}
-
-/* Additional styles for other divs */
-#suburb-div:not(.hidden) {
-  display: block !important;
-}
-#locality-div,
-#projects-div,
-#project-details-div,
-#hot-deals-div,
-#developers-div {
-  display: none; /* Hide all divs by default */
 }
 
 /* Ensure image placeholders are styled */
