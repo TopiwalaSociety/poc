@@ -7,8 +7,10 @@ const projectsDiv = document.getElementById('projects-div');
 const projectDetailsDiv = document.getElementById('project-details-div');
 const hotDealsDiv = document.getElementById('hot-deals-div');
 const developersDiv = document.getElementById('developers-div');
+const projectsDeveloperDiv = document.getElementById('projects-developer-div');
 const localityName = document.getElementById('locality-name');
 const suburbName = document.getElementById('suburb-name');
+const developerNameSpan = document.getElementById('developer-name');
 const projectImage = document.getElementById('project-image');
 const prevImageLink = document.getElementById('prev-image');
 const nextImageLink = document.getElementById('next-image');
@@ -43,6 +45,7 @@ const developers = [
 let currentImageIndex = 1;
 let currentProjectId = '';
 let currentSuburb = '';
+let currentDeveloper = '';
 
 // Initialize the application
 function init() {
@@ -79,6 +82,7 @@ function setupEventListeners() {
     e.preventDefault();
     hideAllDivs();
     hotDealsDiv.classList.remove('hidden');
+    setupHotDealsContent(); // Initialize hot deals content
   });
 
   // Previous links
@@ -114,7 +118,8 @@ function setupEventListeners() {
 function setupSuburbPlaceholders() {
   const placeholders = document.querySelectorAll('#suburb-div .image-placeholder-location');
   placeholders.forEach(placeholder => {
-    placeholder.addEventListener('click', () => {
+    placeholder.addEventListener('click', function() {
+      localityName.textContent = this.id.replace(/-/g, ' ');
       hideAllDivs();
       projectsDiv.classList.remove('hidden');
       setupProjectsContent();
@@ -122,17 +127,87 @@ function setupSuburbPlaceholders() {
   });
 }
 
-// Setup project placeholders
+// Setup all project placeholders (regular, developer, and hot deals)
 function setupProjectPlaceholders() {
-  const placeholders = document.querySelectorAll('#projects-div .image-placeholder');
-  placeholders.forEach(placeholder => {
-    placeholder.addEventListener('click', () => {
-      currentProjectId = placeholder.id;
+  // Regular projects
+  document.querySelectorAll('#projects-div .image-placeholder').forEach(placeholder => {
+    placeholder.addEventListener('click', function() {
+      currentProjectId = this.id;
       currentImageIndex = 1;
       hideAllDivs();
       projectDetailsDiv.classList.remove('hidden');
       updateProjectImage();
     });
+  });
+  
+  // Developer projects
+  document.querySelectorAll('#projects-developer-div .image-placeholder').forEach(placeholder => {
+    placeholder.addEventListener('click', function() {
+      currentProjectId = this.id;
+      currentImageIndex = 1;
+      hideAllDivs();
+      projectDetailsDiv.classList.remove('hidden');
+      updateProjectImage();
+    });
+  });
+  
+  // Hot deals projects
+  document.querySelectorAll('#hot-deals-div .image-placeholder').forEach(placeholder => {
+    placeholder.addEventListener('click', function() {
+      currentProjectId = this.id;
+      currentImageIndex = 1;
+      hideAllDivs();
+      projectDetailsDiv.classList.remove('hidden');
+      updateProjectImage();
+    });
+  });
+}
+
+// Load developers with click handlers
+function loadDevelopers() {
+  developersGrid.innerHTML = "";
+  developers.forEach((dev) => {
+    const button = document.createElement("button");
+    button.textContent = dev;
+    button.classList.add("developer-button");
+    button.addEventListener('click', () => showDeveloperProjects(dev));
+    developersGrid.appendChild(button);
+  });
+}
+
+// Show projects for a specific developer
+function showDeveloperProjects(developer) {
+  currentDeveloper = developer;
+  hideAllDivs();
+  projectsDeveloperDiv.classList.remove('hidden');
+  developerNameSpan.textContent = developer;
+  
+  // Setup developer projects content
+  const placeholders = document.querySelectorAll('#projects-developer-div .image-placeholder');
+  const randomProjects = getRandomItems(projects, placeholders.length);
+  
+  placeholders.forEach((placeholder, index) => {
+    const project = randomProjects[index];
+    placeholder.id = project;
+    placeholder.innerHTML = `
+      <img src="${project}.png" alt="${project}" class="project-image">
+      <div class="project-name">${project}</div>
+    `;
+  });
+}
+
+// Setup hot deals content
+function setupHotDealsContent() {
+  const placeholders = document.querySelectorAll('#hot-deals-div .image-placeholder');
+  const randomProjects = getRandomItems(projects, placeholders.length);
+  
+  placeholders.forEach((placeholder, index) => {
+    const project = randomProjects[index];
+    placeholder.id = project;
+    placeholder.innerHTML = `
+      <img src="${project}.png" alt="${project}" class="project-image">
+      <div class="project-name">${project}</div>
+    `;
   });
 }
 
@@ -189,17 +264,33 @@ function updateProjectImage() {
 function handleBackNavigation() {
   if (!projectDetailsDiv.classList.contains('hidden')) {
     hideAllDivs();
-    projectsDiv.classList.remove('hidden');
+    if (document.querySelector(`#projects-div #${currentProjectId}`)) {
+      projectsDiv.classList.remove('hidden');
+    } 
+    else if (document.querySelector(`#projects-developer-div #${currentProjectId}`)) {
+      projectsDeveloperDiv.classList.remove('hidden');
+    }
+    else if (document.querySelector(`#hot-deals-div #${currentProjectId}`)) {
+      hotDealsDiv.classList.remove('hidden');
+    }
   } 
   else if (!projectsDiv.classList.contains('hidden')) {
     hideAllDivs();
     suburbDiv.classList.remove('hidden');
-  } 
+  }
+  else if (!projectsDeveloperDiv.classList.contains('hidden')) {
+    hideAllDivs();
+    developersDiv.classList.remove('hidden');
+  }
+  else if (!hotDealsDiv.classList.contains('hidden')) {
+    hideAllDivs();
+    // Returns to main view since hot deals is a top-level section
+  }
   else if (!suburbDiv.classList.contains('hidden')) {
     hideAllDivs();
     mumbaiMapDiv.classList.remove('hidden');
   } 
-  else {
+  else if (!developersDiv.classList.contains('hidden')) {
     hideAllDivs();
   }
 }
@@ -208,17 +299,6 @@ function handleBackNavigation() {
 function getRandomItems(arr, count) {
   const shuffled = [...arr].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, count);
-}
-
-// Load developers
-function loadDevelopers() {
-  developersGrid.innerHTML = "";
-  developers.forEach((dev) => {
-    const button = document.createElement("button");
-    button.textContent = dev;
-    button.classList.add("developer-button");
-    developersGrid.appendChild(button);
-  });
 }
 
 // Adjust map button positions
@@ -272,7 +352,7 @@ function adjustButtonPositions() {
   });
 }
 
-// Hide all divs
+// Hide all divs function
 function hideAllDivs() {
   mumbaiMapDiv.classList.add('hidden');
   suburbDiv.classList.add('hidden');
@@ -280,6 +360,7 @@ function hideAllDivs() {
   projectDetailsDiv.classList.add('hidden');
   hotDealsDiv.classList.add('hidden');
   developersDiv.classList.add('hidden');
+  projectsDeveloperDiv.classList.add('hidden');
 }
 
 // Initialize the app
