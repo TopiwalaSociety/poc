@@ -86,14 +86,6 @@ document.getElementById('hot-deals-link').addEventListener('click', (e) => {
   // Log the class list and computed display style
   console.log("hotDealsDiv class list:", hotDealsDiv.classList);
   console.log("hotDealsDiv display:", window.getComputedStyle(hotDealsDiv).display);
-
-  // Log visibility of all divs for debugging
-  console.log("mumbaiMapDiv display:", window.getComputedStyle(mumbaiMapDiv).display);
-  console.log("suburbDiv display:", window.getComputedStyle(suburbDiv).display);
-  console.log("localityDiv display:", window.getComputedStyle(localityDiv).display);
-  console.log("projectsDiv display:", window.getComputedStyle(projectsDiv).display);
-  console.log("projectDetailsDiv display:", window.getComputedStyle(projectDetailsDiv).display);
-  console.log("developersDiv display:", window.getComputedStyle(developersDiv).display);
 });
 
 // Function to handle map button clicks
@@ -107,6 +99,34 @@ function handleMapButtonClick(pos) {
   console.log("suburbDiv display:", window.getComputedStyle(suburbDiv).display);
 
   suburbName.textContent = pos.id; // Update suburb name
+
+  // Get all placeholders in the suburb-div
+  const placeholders = document.querySelectorAll('#suburb-div .image-placeholder');
+
+  // Clear any existing text in placeholders
+  placeholders.forEach((placeholder) => {
+    placeholder.textContent = '';
+  });
+
+  // If Goregaon-West is clicked, update placeholders with specific names
+  if (pos.id === 'Goregaon-West') {
+    const names = [
+      "SV Road",
+      "M G Road",
+      "Link Road",
+      "Bangur Nagar",
+      "Siddharth Nagar",
+      "Unnat Nagar",
+      "Shastri Nagar",
+      "Piramal Nagar"
+    ];
+
+    placeholders.forEach((placeholder, index) => {
+      const name = names[index];
+      // Replace spaces before "Nagar" with a line break
+      placeholder.innerHTML = name.replace(/ Nagar/g, '<br>Nagar');
+    });
+  }
 }
 
 // Function to adjust button positions based on map size

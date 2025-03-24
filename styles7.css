@@ -52,7 +52,6 @@ body {
 #suburb-div:not(.hidden),
 #hot-deals-div:not(.hidden),
 #developers-div:not(.hidden),
-#locality-div:not(.hidden),
 #projects-div:not(.hidden),
 #project-details-div:not(.hidden) {
   display: block !important;
@@ -118,23 +117,25 @@ body {
   font-weight: bold;
   font-size: 16px;
   aspect-ratio: 349 / 334;
+  position: relative;
 }
+
 .image-placeholder {
   background-color: #ccc;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
   height: 200px;
   width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   cursor: pointer;
   color: black;
   font-weight: bold;
   font-size: 16px;
   aspect-ratio: 349 / 334;
+  padding-bottom: 20px;
 }
+
 .nav-link {
   margin-bottom: 10px;
 }
@@ -154,6 +155,7 @@ body {
 #project-image {
   max-width: 100%;
   height: auto;
+  max-height: 80vh;
 }
 
 #prev-image,
@@ -164,6 +166,9 @@ body {
   text-decoration: none;
   color: #333;
   font-size: 24px;
+  background: rgba(255,255,255,0.7);
+  padding: 10px;
+  border-radius: 50%;
 }
 
 #prev-image {
@@ -205,4 +210,23 @@ body {
 /* Hot deals specific styling */
 #hot-deals-div .image-grid {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.locality-name {
+  position: absolute;
+  top: 30%;
+  width: 100%;
+  text-align: center;
+  padding: 0 10px;
+}
+
+.project-name {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.project-image {
+  max-width: 100%;
+  max-height: 80%;
+  object-fit: contain;
 }
