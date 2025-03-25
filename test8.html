@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mumbai Real Estate Expo</title>
+  <link rel="stylesheet" href="styles8.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Banner -->
+    <div class="banner">
+      <h1>Mumbai Real Estate Expo</h1>
+    </div>
+
+    <!-- OTP Screen -->
+    <div id="otp-screen">
+      <div class="welcome-text">
+        <p>Welcome To Mumbai Property Exhibition. Visit projects across Mumbai that suit your requirements.</p>
+        <p>Choose from over 100+ developers and 500+ Projects.</p>
+      </div>
+      
+      <div id="budget-selection">
+        <h3>Select Your Budget Range:</h3>
+        <div class="budget-options">
+          <label><input type="radio" name="budget" value="<1"> < 1 Cr</label>
+          <label><input type="radio" name="budget" value="1-1.5"> 1 to 1.5 Cr</label>
+          <label><input type="radio" name="budget" value="1.5-2"> 1.5 to 2 Cr</label>
+          <label><input type="radio" name="budget" value="2-2.5"> 2 to 2.5 Cr</label>
+          <label><input type="radio" name="budget" value="2.5-3"> 2.5 to 3 Cr</label>
+          <label><input type="radio" name="budget" value="3+"> 3 Cr+</label>
+          <label><input type="radio" name="budget" value="all" checked> All</label>
+        </div>
+        <button id="budget-next" class="next-button">
+          <img src="next-arrow.png" alt="Next">
+        </button>
+      </div>
+      
+      <div id="otp-entry" class="hidden">
+        <div class="input-group">
+          <input type="tel" id="mobile-number" placeholder="Mobile #" maxlength="10">
+          <button id="send-otp" class="red-button">Send OTP</button>
+        </div>
+        <div class="input-group hidden" id="otp-group">
+          <input type="text" id="otp-input" placeholder="OTP" maxlength="6">
+          <button id="verify-otp" class="red-button" disabled>Enter the Exhibition</button>
+          <button id="resend-otp" class="red-button hidden">Resend OTP</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Navigation Links -->
+    <div class="links hidden">
+      <a href="#" id="search-by-location">Locations</a>
+      <a href="#" id="search-by-developer">Developers</a>
+      <a href="#" id="hot-deals-link">Hot Deals</a>
+    </div>
+
+    <!-- Hidden input for OTP verification -->
+    <input type="hidden" id="otp-verified" value="no">
+
+    <!-- Developers Div -->
+    <div id="developers-div" class="hidden">
+      <div class="nav-link">
+        <a href="#" class="previous-link"><img src="previous.png" alt="Previous"></a>
+      </div>
+      <h2>Developers</h2>
+      <div class="developers-grid"></div>
+    </div>
+
+    <!-- Mumbai Map Div -->
+    <div id="mumbai-map-div" class="hidden">
+      <img src="mumbai-suburb-map.jpg" alt="Mumbai Suburb Map" id="mumbai-map">
+      <!-- Buttons for suburbs -->
+      <button id="Dahisar-West" class="map-button"></button>
+      <button id="Dahisar-East" class="map-button"></button>
+      <button id="Borivali-West" class="map-button"></button>
+      <button id="Kandivali-West" class="map-button"></button>
+      <button id="Malad-West" class="map-button"></button>
+      <button id="Goregaon-West" class="map-button"></button>
+      <button id="Jogeshwari-West" class="map-button"></button>
+      <button id="Andheri-West" class="map-button"></button>
+      <button id="Parle-West" class="map-button"></button>
+      <button id="Santacruz-West" class="map-button"></button>
+      <button id="Khar-West" class="map-button"></button>
+      <button id="Bandra-West" class="map-button"></button>
+      <button id="Goregaon-East" class="map-button"></button>
+      <button id="Jogeshwari-East" class="map-button"></button>
+      <button id="Borivali-East" class="map-button"></button>
+      <button id="Bhandup-East" class="map-button"></button>
+      <button id="Ghatkopar-West" class="map-button"></button>
+      <button id="Sion" class="map-button"></button>
+      <button id="Thane-West" class="map-button"></button>
+      <button id="Dadar-East" class="map-button"></button>
+      <button id="Parel" class="map-button"></button>
+      <button id="Ghatkopar-East" class="map-button"></button>
+    </div>
+
+    <!-- Suburb Div -->
+    <div id="suburb-div" class="hidden">
+      <div class="nav-link">
+        <a href="#" class="previous-link"><img src="previous.png" alt="Previous"></a>
+      </div>
+      <h2>Locations within <span id="suburb-name"></span></h2>
+      <div class="image-grid">
+        <div class="image-placeholder-location" data-index="1"></div>
+        <div class="image-placeholder-location" data-index="2"></div>
+        <div class="image-placeholder-location" data-index="3"></div>
+        <div class="image-placeholder-location" data-index="4"></div>
+        <div class="image-placeholder-location" data-index="5"></div>
+        <div class="image-placeholder-location" data-index="6"></div>
+      </div>
+    </div>
+
+    <!-- Projects by Developer Div -->
+    <div id="projects-developer-div" class="hidden">
+      <div class="nav-link">
+        <a href="#" class="previous-link"><img src="previous.png" alt="Previous"></a>
+      </div>
+      <h2>Projects by <span id="developer-name"></span></h2>
+      <div class="image-grid">
+        <div class="image-placeholder" data-index="1"></div>
+        <div class="image-placeholder" data-index="2"></div>
+        <div class="image-placeholder" data-index="3"></div>
+        <div class="image-placeholder" data-index="4"></div>
+        <div class="image-placeholder" data-index="5"></div>
+      </div>
+    </div>
+
+    <!-- Projects Div -->
+    <div id="projects-div" class="hidden">
+      <div class="nav-link">
+        <a href="#" class="previous-link"><img src="previous.png" alt="Previous"></a>
+      </div>
+      <h2>Projects in <span id="locality-name"></span></h2>
+      <div class="image-grid">
+        <div class="image-placeholder" data-index="1"></div>
+        <div class="image-placeholder" data-index="2"></div>
+        <div class="image-placeholder" data-index="3"></div>
+        <div class="image-placeholder" data-index="4"></div>
+        <div class="image-placeholder" data-index="5"></div>
+        <div class="image-placeholder" data-index="6"></div>
+      </div>
+    </div>
+
+    <!-- Project Details Div -->
+    <div id="project-details-div" class="hidden">
+      <div class="nav-link">
+        <a href="#" class="previous-link"><img src="previous.png" alt="Previous"></a>
+      </div>
+      <div class="image-container">
+        <img src="" alt="Project Image" id="project-image">
+        <a href="#" id="prev-image"><img src="previous-arrow.png" alt="Previous-Arrow"></a>
+        <a href="#" id="next-image"><img src="next-arrow.png" alt="Next-arrow"></a>
+      </div>
+    </div>
+
+    <!-- Hot Deals Div -->
+    <div id="hot-deals-div" class="hidden">
+      <div class="nav-link">
+        <a href="#" class="previous-link"><img src="previous.png" alt="Previous"></a>
+      </div>
+      <h2>Hot Deals</h2>
+      <div class="image-grid">
+        <div class="image-placeholder" data-index="1"></div>
+        <div class="image-placeholder" data-index="2"></div>
+        <div class="image-placeholder" data-index="3"></div>
+        <div class="image-placeholder" data-index="4"></div>
+        <div class="image-placeholder" data-index="5"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script8.js"></script>
+</body>
+</html>
