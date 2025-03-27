@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate Expo Prototype</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .hero {
+            background: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+            height: 300px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem;
+            color: white;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            border-radius: 8px;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #ff6b6b;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #ff5252;
+            transform: translateY(-2px);
+        }
+        
+        .search-bar {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .search-form {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .search-form select, .search-form input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #1e3c72;
+        }
+        
+        .expo-hall {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            position: relative;
+            min-height: 500px;
+        }
+        
+        .hall-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .stall {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .stall:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stall-image {
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .stall-info {
+            padding: 1rem;
+        }
+        
+        .stall-info h3 {
+            margin-bottom: 0.5rem;
+            color: #1e3c72;
+        }
+        
+        .stall-info p {
+            color: #666;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .stall-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff6b6b;
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .project-header {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .project-gallery {
+            flex: 1;
+            min-width: 300px;
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+        }
+        
+        .project-details {
+            flex: 1;
+        }
+        
+        .project-details h2 {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+        }
+        
+        .project-details p {
+            margin-bottom: 0.8rem;
+            color: #555;
+        }
+        
+        .project-highlights {
+            margin: 1.5rem 0;
+        }
+        
+        .highlight-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+        
+        .highlight-icon {
+            margin-right: 0.8rem;
+            color: #ff6b6b;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .btn-secondary {
+            background-color: #1e3c72;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #2a5298;
+        }
+        
+        .tab-container {
+            margin-top: 2rem;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 1rem;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+        }
+        
+        .tab.active {
+            border-bottom-color: #ff6b6b;
+            color: #ff6b6b;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .virtual-tour {
+            height: 300px;
+            background-color: #eee;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .developer-info {
+            display: flex;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .developer-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #ddd;
+            margin-right: 1rem;
+            background-size: cover;
+        }
+        
+        .upcoming-events {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .event-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .event-card h3 {
+            margin-bottom: 0.5rem;
+            color: #1e3c72;
+        }
+        
+        .event-date {
+            color: #ff6b6b;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .event-location {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .expo-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+        
+        .view-toggle {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .view-toggle button {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .view-toggle button.active {
+            background-color: #1e3c72;
+            color: white;
+            border-color: #1e3c72;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">RealEstateExpo</div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Expos</a>
+            <a href="#">Developers</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="hero">
+            <div class="hero-content">
+                <h1>India's Premier Virtual Real Estate Expo</h1>
+                <p>Explore properties from top developers across India, all from the comfort of your home.</p>
+                <a href="#expo-hall" class="btn">Enter Expo Hall</a>
+            </div>
+        </div>
+        
+        <div class="search-bar">
+            <div class="search-form">
+                <select>
+                    <option>Select City</option>
+                    <option>Mumbai</option>
+                    <option>Delhi</option>
+                    <option>Bangalore</option>
+                    <option>Hyderabad</option>
+                    <option>Chennai</option>
+                </select>
+                <select>
+                    <option>Property Type</option>
+                    <option>Residential</option>
+                    <option>Commercial</option>
+                    <option>Plots</option>
+                </select>
+                <select>
+                    <option>Budget</option>
+                    <option>Under ?50L</option>
+                    <option>?50L - ?1Cr</option>
+                    <option>?1Cr - ?2Cr</option>
+                    <option>Above ?2Cr</option>
+                </select>
+                <button class="btn">Search</button>
+            </div>
+        </div>
+        
+        <h2 class="section-title">Current Expo: Mumbai Real Estate Expo 2024</h2>
+        
+        <div class="expo-controls">
+            <div>
+                <span>Showing 12 developers</span>
+            </div>
+            <div class="view-toggle">
+                <button class="active">Grid</button>
+                <button>Map</button>
+                <button>List</button>
+            </div>
+        </div>
+        
+        <div class="expo-hall" id="expo-hall">
+            <div class="hall-grid">
+                <!-- Stall 1 -->
+                <div class="stall" onclick="openProject('project1')">
+                    <div class="stall-image" style="background-image: url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                    <div class="stall-info">
+                        <h3>Lodha Bellissimo</h3>
+                        <p>By Lodha Group</p>
+                        <p>Worli, Mumbai</p>
+                    </div>
+                    <div class="stall-badge">Expo Deal</div>
+                </div>
+                
+                <!-- Stall 2 -->
+                <div class="stall" onclick="openProject('project2')">
+                    <div class="stall-image" style="background-image: url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                    <div class="stall-info">
+                        <h3>Godrej Bayview</h3>
+                        <p>By Godrej Properties</p>
+                        <p>Parel, Mumbai</p>
+                    </div>
+                </div>
+                
+                <!-- Stall 3 -->
+                <div class="stall" onclick="openProject('project3')">
+                    <div class="stall-image" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                    <div class="stall-info">
+                        <h3>Raheja Vivarea</h3>
+                        <p>By K Raheja Corp</p>
+                        <p>Thane, Mumbai</p>
+                    </div>
+                    <div class="stall-badge">New Launch</div>
+                </div>
+                
+                <!-- Stall 4 -->
+                <div class="stall" onclick="openProject('project4')">
+                    <div class="stall-image" style="background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                    <div class="stall-info">
+                        <h3>Hiranandani Parks</h3>
+                        <p>By Hiranandani Group</p>
+                        <p>Powai, Mumbai</p>
+                    </div>
+                </div>
+                
+                <!-- Stall 5 -->
+                <div class="stall" onclick="openProject('project5')">
+                    <div class="stall-image" style="background-image: url('https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                    <div class="stall-info">
+                        <h3>Piramal Aranya</h3>
+                        <p>By Piramal Realty</p>
+                        <p>Byculla, Mumbai</p>
+                    </div>
+                    <div class="stall-badge">Expo Deal</div>
+                </div>
+                
+                <!-- Stall 6 -->
+                <div class="stall" onclick="openProject('project6')">
+                    <div class="stall-image" style="background-image: url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                    <div class="stall-info">
+                        <h3>Oberoi Sky City</h3>
+                        <p>By Oberoi Realty</p>
+                        <p>Borivali, Mumbai</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">Upcoming Expos</h2>
+        
+        <div class="upcoming-events">
+            <div class="event-card">
+                <h3>Bangalore Real Estate Expo</h3>
+                <div class="event-date">15-30 January 2025</div>
+                <div class="event-location">Virtual Event</div>
+                <p>Discover premium properties in India's tech capital with exclusive expo deals.</p>
+                <button class="btn">Notify Me</button>
+            </div>
+            
+            <div class="event-card">
+                <h3>Delhi NCR Property Expo</h3>
+                <div class="event-date">1-15 February 2025</div>
+                <div class="event-location">Virtual Event</div>
+                <p>Explore residential and commercial projects across Delhi, Gurgaon and Noida.</p>
+                <button class="btn">Notify Me</button>
+            </div>
+            
+            <div class="event-card">
+                <h3>Hyderabad Realty Expo</h3>
+                <div class="event-date">1-14 March 2025</div>
+                <div class="event-location">Virtual Event</div>
+                <p>Find your dream home in Hyderabad's fastest growing neighborhoods.</p>
+                <button class="btn">Notify Me</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Project Modal -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            
+            <div id="project1" class="project-content">
+                <div class="project-header">
+                    <div class="project-gallery" style="background-image: url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                    <div class="project-details">
+                        <h2>Lodha Bellissimo</h2>
+                        <p><strong>Location:</strong> Worli, Mumbai</p>
+                        <p><strong>Developer:</strong> Lodha Group</p>
+                        <p><strong>Starting Price:</strong> ?4.2 Cr</p>
+                        <p><strong>Configurations:</strong> 2BHK, 3BHK, 4BHK</p>
+                        
+                        <div class="action-buttons">
+                            <button class="btn">Contact Developer</button>
+                            <button class="btn btn-secondary">Download Brochure</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-highlights">
+                    <h3>Key Highlights</h3>
+                    <div class="highlight-item">
+                        <span class="highlight-icon">?</span>
+                        <span>Exclusive expo offer: 5% discount on bookings</span>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="highlight-icon">?</span>
+                        <span>Ready to move in</span>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="highlight-icon">?</span>
+                        <span>Premium sea-facing location</span>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="highlight-icon">?</span>
+                        <span>World-class amenities including clubhouse, pool, gym</span>
+                    </div>
+                </div>
+                
+                <div class="tab-container">
+                    <div class="tabs">
+                        <div class="tab active" onclick="switchTab('details1', this)">Details</div>
+                        <div class="tab" onclick="switchTab('floorplans1', this)">Floor Plans</div>
+                        <div class="tab" onclick="switchTab('location1', this)">Location</div>
+                        <div class="tab" onclick="switchTab('builder1', this)">About Builder</div>
+                    </div>
+                    
+                    <div id="details1" class="tab-content active">
+                        <p>Lodha Bellissimo offers luxurious residences with breathtaking views of the Arabian Sea. The project features spacious apartments with premium finishes and modern amenities.</p>
+                        <p>Each apartment is designed to maximize natural light and ventilation, with large windows and balconies. The development includes 24/7 security, power backup, and maintenance services.</p>
+                    </div>
+                    
+                    <div id="floorplans1" class="tab-content">
+                        <div class="virtual-tour">
+                            <p>Floor plans would be displayed here</p>
+                        </div>
+                    </div>
+                    
+                    <div id="location1" class="tab-content">
+                        <div class="virtual-tour">
+                            <p>Interactive map would be displayed here</p>
+                        </div>
+                    </div>
+                    
+                    <div id="builder1" class="tab-content">
+                        <div class="developer-info">
+                            <div class="developer-logo" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Lodha_Group_Logo.svg/1200px-Lodha_Group_Logo.svg.png')"></div>
+                            <div>
+                                <h3>Lodha Group</h3>
+                                <p>One of India's premier real estate developers with over 30 years of experience in creating landmark developments across Mumbai.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="project2" class="project-content" style="display:none;">
+                <div class="project-header">
+                    <div class="project-gallery" style="background-image: url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                    <div class="project-details">
+                        <h2>Godrej Bayview</h2>
+                        <p><strong>Location:</strong> Parel, Mumbai</p>
+                        <p><strong>Developer:</strong> Godrej Properties</p>
+                        <p><strong>Starting Price:</strong> ?3.8 Cr</p>
+                        <p><strong>Configurations:</strong> 2BHK, 3BHK</p>
+                        
+                        <div class="action-buttons">
+                            <button class="btn">Contact Developer</button>
+                            <button class="btn btn-secondary">Download Brochure</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-highlights">
+                    <h3>Key Highlights</h3>
+                    <div class="highlight-item">
+                        <span class="highlight-icon">?</span>
+                        <span>Prime location in central Mumbai</span>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="highlight-icon">?</span>
+                        <span>Possession in 2026</span>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="highlight-icon">?</span>
+                        <span>Green building certified</span>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="highlight-icon">?</span>
+                        <span>Children's play area and jogging track</span>
+                    </div>
+                </div>
+                
+                <div class="tab-container">
+                    <div class="tabs">
+                        <div class="tab active" onclick="switchTab('details2', this)">Details</div>
+                        <div class="tab" onclick="switchTab('floorplans2', this)">Floor Plans</div>
+                        <div class="tab" onclick="switchTab('location2', this)">Location</div>
+                        <div class="tab" onclick="switchTab('builder2', this)">About Builder</div>
+                    </div>
+                    
+                    <div id="details2" class="tab-content active">
+                        <p>Godrej Bayview offers contemporary residences in the heart of Mumbai's business district. The project combines modern design with Godrej's commitment to quality and sustainability.</p>
+                        <p>Residents will enjoy access to a clubhouse, swimming pool, gymnasium, and landscaped gardens. The development is conveniently located near corporate offices, hospitals, and educational institutions.</p>
+                    </div>
+                    
+                    <div id="floorplans2" class="tab-content">
+                        <div class="virtual-tour">
+                            <p>Floor plans would be displayed here</p>
+                        </div>
+                    </div>
+                    
+                    <div id="location2" class="tab-content">
+                        <div class="virtual-tour">
+                            <p>Interactive map would be displayed here</p>
+                        </div>
+                    </div>
+                    
+                    <div id="builder2" class="tab-content">
+                        <div class="developer-info">
+                            <div class="developer-logo" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Godrej_Properties_logo.svg/1200px-Godrej_Properties_logo.svg.png')"></div>
+                            <div>
+                                <h3>Godrej Properties</h3>
+                                <p>A leading real estate developer in India known for its commitment to quality, innovation, and sustainable development practices.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function openProject(projectId) {
+            // Hide all project contents
+            const projectContents = document.querySelectorAll('.project-content');
+            projectContents.forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // Show the selected project
+            document.getElementById(projectId).style.display = 'block';
+            
+            // Reset all tabs to show details first
+            const allTabs = document.querySelectorAll('.tab-content');
+            allTabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            const allTabButtons = document.querySelectorAll('.tab');
+            allTabButtons.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show modal
+            document.getElementById('projectModal').style.display = 'flex';
+            
+            // Activate first tab of this project
+            const firstTab = document.querySelector(`#${projectId} .tab-content`);
+            const firstTabButton = document.querySelector(`#${projectId} .tab`);
+            if (firstTab && firstTabButton) {
+                firstTab.classList.add('active');
+                firstTabButton.classList.add('active');
+            }
+        }
+        
+        function closeModal() {
+            document.getElementById('projectModal').style.display = 'none';
+        }
+        
+        function switchTab(tabId, tabButton) {
+            // Get all tabs in this project section
+            const projectSection = tabButton.closest('.project-content');
+            const allTabs = projectSection.querySelectorAll('.tab-content');
+            const allTabButtons = projectSection.querySelectorAll('.tab');
+            
+            // Hide all tabs and remove active class from buttons
+            allTabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            allTabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab and activate button
+            document.getElementById(tabId).classList.add('active');
+            tabButton.classList.add('active');
+        }
+        
+        // Close modal when clicking outside content
+        window.onclick = function(event) {
+            const modal = document.getElementById('projectModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
