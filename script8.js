@@ -54,11 +54,11 @@ const developers = [
 
 // Project Image Collections
 const projectCollections = {
-  project1: ['Project1-1', 'Project2-1', 'Project3-1', 'Project4-1', 'Project5-1'],
-  project2: ['Project1-2', 'Project2-2', 'Project3-2', 'Project4-2', 'Project5-2'],
-  project3: ['Project1-3', 'Project2-3', 'Project3-3', 'Project4-3', 'Project5-3'],
-  project4: ['Project1-4', 'Project2-4', 'Project3-4', 'Project4-4', 'Project5-4'],
-  project5: ['Project1-5', 'Project2-5', 'Project3-5', 'Project4-5', 'Project5-5']
+  project1: [
+    'Project1-1', 'Project1-2', 'Project1-3', 'Project1-4', 'Project1-5',
+    'Project1-6', 'Project1-7', 'Project1-8', 'Project1-9', 'Project1-10'
+    // Add more images as needed (will work automatically)
+  ]
 };
 
 // State variables
@@ -178,13 +178,13 @@ function setupEventListeners() {
     }
   });
 
-  nextImageLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (currentImageIndex < 5) {
-      currentImageIndex++;
-      updateProjectImage();
-    }
-  });
+ nextImageLink.addEventListener('click', (e) => {
+  e.preventDefault();
+  if (currentImageIndex < projectCollections.project1.length) {
+    currentImageIndex++;
+    updateProjectImage();
+  }
+});
 
   // Window resize
   window.addEventListener('resize', adjustButtonPositions);
@@ -310,16 +310,13 @@ function setupProjectsContent() {
 
 // Update project image in details view
 function updateProjectImage() {
-  const collectionKeys = Object.keys(projectCollections);
-  const currentCollection = projectCollections[collectionKeys[currentImageIndex - 1]];
-  const randomImage = currentCollection[Math.floor(Math.random() * currentCollection.length)];
+  const currentImage = projectCollections.project1[currentImageIndex - 1];
+  projectImage.src = `${currentImage}.jpg`;
+  projectImage.alt = `${currentImage}`;
   
-  projectImage.src = `${randomImage}.jpg`;
-  projectImage.alt = `${randomImage}`;
-  
-  // Show/hide navigation arrows
+  // Navigation arrows (automatically handles any array length)
   prevImageLink.style.display = currentImageIndex === 1 ? 'none' : 'block';
-  nextImageLink.style.display = currentImageIndex === 5 ? 'none' : 'block';
+  nextImageLink.style.display = currentImageIndex === projectCollections.project1.length ? 'none' : 'block';
 }
 
 // Handle back navigation
