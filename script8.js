@@ -54,11 +54,11 @@ const developers = [
 
 // Project Image Collections
 const projectCollections = {
-  project1: ['Project1-1', 'Project1-2', 'Project1-3', 'Project1-4', 'Project1-5'],
-  project2: ['Project2-1', 'Project2-2', 'Project2-3', 'Project2-4', 'Project2-5'],
-  project3: ['Project3-1', 'Project3-2', 'Project3-3', 'Project3-4', 'Project3-5'],
-  project4: ['Project4-1', 'Project4-2', 'Project4-3', 'Project4-4', 'Project4-5'],
-  project5: ['Project5-1', 'Project5-2', 'Project5-3', 'Project5-4', 'Project5-5']
+  project1: ['Project1-1', 'Project2-1', 'Project3-1', 'Project4-1', 'Project5-1'],
+  project2: ['Project1-2', 'Project2-2', 'Project3-2', 'Project4-2', 'Project5-2'],
+  project3: ['Project1-3', 'Project2-3', 'Project3-3', 'Project4-3', 'Project5-3'],
+  project4: ['Project1-4', 'Project2-4', 'Project3-4', 'Project4-4', 'Project5-4'],
+  project5: ['Project1-5', 'Project2-5', 'Project3-5', 'Project4-5', 'Project5-5']
 };
 
 // State variables
