@@ -1,0 +1,15 @@
+I want a highly interactive, pure HTML+JS+CSS, mobile first responsive prototype for following specifications.
+Step 1: In the home page, there will be a banner. Below the banner, there shall be two links "Search By Location" and "Search By Developer"
+Step2: On clicking search by Location, a map of Mumbai shall load in the div below the banner. The image name is mumbai-suburb-map.jpg, it will get loaded. Let the name of this div be "mumbai-map-div".
+Step3: On click of a particular location in the map, the whole div (mumbai-map-div) shall disappear and a new div that was invisible so far shall appear.
+This div, lets name it "suburb-div"  shall show 8 different place holders that will contain standard sizes vertical rectangular images, 8 in total.
+On clicking the first image, the currently visible div ( suburb-div shall disappear and a new div by name "locality-div" shall appear.
+This locality-div shall again have placeholder images, 10 in total. Again these all images will be vertical rectagular images. 
+On clicking the any of the image in this div a text parameter shall pass in the link, the locality-div shall disapper and a new div by name "projects-div" shall appear. 
+There shall be a title text in this div saying "Projects in" appended by the value of the text parametr passed with the click.
+In this div also, there shall be vertical rectangular image place holders ( 8 in total).
+On click of any of the images, again this "projects-div" shall disappear and a new div by name "project-details" div shall appaer. This div shall show one large image at a time
+ and on click on ">>" symbol, place towards bottom right corner of the image, it shall show next large image.
+Each image shall have a functionality where click on the ">>" symbol placed next to bottom right of the image shall show next large image and click on "<<" symbol placed near top left of the image shall show previous image.
+Only the very first image in the projects div shall not have a "<<" symbol, because there is nothing to go bac to.
+For each of the divs i.e, suburbs-div, locality-div, projects-div, and project-details-div shall have "<<Previous" printed on top left corner. A click on it shall make the current div disappear and previous div shall appear.

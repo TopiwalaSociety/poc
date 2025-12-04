@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mumbai Property Expo — Interactive Prototype</title>
+  <style>
+    :root{--blue:#1E4DB7;--gold:#D4A037;--bg:#f8f8f9;--card:#ffffff}
+    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; background:var(--bg); color:#111}
+    header{background:linear-gradient(90deg,var(--blue),#2b63d4); color:white; padding:22px 28px; display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:16px;align-items:center}
+    .logo{width:56px;height:56px;border-radius:8px;background:linear-gradient(180deg,var(--gold),#c58e2d);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
+    h1{font-size:20px;margin:0}
+    .controls{display:flex;gap:12px;align-items:center}
+    input,select,button,textarea{padding:10px 12px;border-radius:8px;border:1px solid #ddd;font-size:14px}
+    .container{padding:20px 28px}
+    .banner{background:white;border-radius:12px;padding:18px;display:flex;gap:20px;align-items:center;box-shadow:0 6px 18px rgba(16,24,40,0.06)}
+    .expo-hall{margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px}
+    .booth{background:var(--card);padding:12px;border-radius:10px;box-shadow:0 6px 12px rgba(16,24,40,0.04);cursor:pointer;transition:transform .14s}
+    .booth:hover{transform:translateY(-6px)}
+    .booth .dev-name{font-weight:700;color:var(--blue);font-size:14px}
+    .booth .projects{display:flex;gap:8px;margin-top:8px}
+    .project-thumb{width:100%;height:80px;border-radius:8px;object-fit:cover;background:#eee}
+
+    /* Stall / modal */
+    .modal{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
+    .modal.open{display:flex}
+    .stall{width:100%;max-width:1100px;background:white;border-radius:12px;display:flex;gap:20px;padding:20px}
+    .stall-left{flex:1}
+    .stall-right{width:360px}
+    .carousel{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .carousel img{width:100%;height:120px;border-radius:8px;object-fit:cover}
+    .property-card{background:#fafafa;border-radius:10px;padding:10px;margin-top:12px}
+    .cta{display:flex;gap:8px;margin-top:12px}
+    .primary{background:var(--blue);color:white;border:none;padding:10px 12px;border-radius:8px;cursor:pointer}
+    .secondary{background:white;color:var(--blue);border:1px solid var(--blue);padding:10px 12px;border-radius:8px;cursor:pointer}
+    form{display:flex;flex-direction:column;gap:8px}
+    .lead-list{margin-top:12px;background:#fff;border-radius:8px;padding:8px;max-height:220px;overflow:auto}
+    footer{padding:18px 28px;background:#fff;margin-top:20px;border-top:1px solid #eee}
+    .stats{display:flex;gap:18px;align-items:center}
+    pre{white-space:pre-wrap;word-break:break-word}
+    @media(max-width:900px){.stall{flex-direction:column}.stall-right{width:100%}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">MPE</div>
+      <div>
+        <h1>Mumbai Property Expo</h1>
+        <div style="font-size:12px;opacity:0.9">Digital Expo — CREDAI-MCHI</div>
+      </div>
+    </div>
+    <div class="controls">
+      <input id="search" placeholder="Search projects or developers" />
+      <select id="filter">
+        <option value="all">All Budgets</option>
+        <option value="under1">Under ₹1 Cr</option>
+        <option value="1to3">₹1–3 Cr</option>
+        <option value="3plus">₹3+ Cr</option>
+      </select>
+      <button id="enterHall" class="primary">Enter Expo Hall</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="banner">
+      <div style="flex:1">
+        <h2 style="margin:0">Welcome to the Mumbai Property Expo — Digital Edition</h2>
+        <p style="margin:6px 0 0;color:#444">Experience developers' booths as if you walked an expo. Browse projects, request site visits, and book with standardized enquiry forms.</p>
+      </div>
+      <div style="width:220px;text-align:right">
+        <div style="font-size:12px;color:#666">Developers</div>
+        <div id="devCount" style="font-weight:700;font-size:20px">0</div>
+        <div style="font-size:12px;color:#666">Properties</div>
+        <div id="propCount" style="font-weight:700;font-size:20px">0</div>
+      </div>
+    </div>
+
+    <div id="expoArea" style="margin-top:16px">
+      <div style="font-size:13px;color:#666;margin-bottom:8px">Expo Hall — Click a booth to enter the developer stall</div>
+      <div class="expo-hall" id="hall"></div>
+    </div>
+
+    <div style="margin-top:18px;display:flex;gap:12px;align-items:flex-start">
+      <div style="flex:1">
+        <h3 style="margin:0 0 8px 0">Featured Projects</h3>
+        <div id="featured" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px"></div>
+      </div>
+      <aside style="width:320px">
+        <div style="background:white;border-radius:10px;padding:12px;box-shadow:0 6px 12px rgba(16,24,40,0.04)">
+          <div style="font-weight:700;color:#333">Your Visits</div>
+          <div style="font-size:13px;color:#666;margin-top:6px">Leads you requested will appear here. You can download them as JSON.</div>
+          <div class="lead-list" id="leadList">No leads yet</div>
+          <button id="downloadLeads" style="margin-top:8px" class="secondary">Download Leads (JSON)</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="stall">
+      <div class="stall-left">
+        <div style="display:flex;gap:12px;align-items:center">
+          <div id="stallLogo" style="width:72px;height:72px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff"></div>
+          <div>
+            <div id="stallName" style="font-weight:800;font-size:18px">Developer Name</div>
+            <div id="stallTag" style="color:#666;font-size:13px;margin-top:4px">2 Projects on display</div>
+          </div>
+        </div>
+
+        <div class="carousel" id="carousel"></div>
+
+        <div id="propertiesArea"></div>
+      </div>
+      <div class="stall-right">
+        <div style="font-weight:700">Interested? Send an enquiry</div>
+        <form id="enquiryForm" style="margin-top:8px">
+          <input id="buyerName" placeholder="Your name" required />
+          <input id="buyerPhone" placeholder="Mobile number (required)" required />
+          <select id="propertySelect"></select>
+          <textarea id="buyerMsg" placeholder="Message (optional)" style="height:80px"></textarea>
+          <div style="display:flex;gap:8px">
+            <button type="submit" class="primary">Send Enquiry</button>
+            <button type="button" id="closeStall" class="secondary">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="font-size:13px;color:#666">© Mumbai Property Expo — Prototype</div>
+      <div class="stats">
+        <div style="font-size:13px;color:#666">Expo Mode</div>
+        <div style="font-weight:700;color:var(--blue)" id="mode">Stalls view</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // --- Names and curated images
+    const NAMES = [
+      "Lodha", "Seth Developers", "Prestige Group", "Kalpataru Builders", "Arkade Developers","Gowda Realty",
+      "Modi Spaces", "Hiranandani", "New India", "Concord Developers", "Srushti Builders",
+      "Samarth Group", "Mayfair", "Rustomjee", "Oberoi Realties", "Neelkanth Group",
+      "Godrej Properties", "Brigade Group", "Mahindra Life Spaces", "Suntek Realy", "K Raheja",
+      "L&T", "DLF", "Runwal", "Paranjpe", "Wascon", "J P Infra", "Shapurji Palonji", "Casa Grande",
+      "Century Real Estate", "India Bulls"
+    ];
+
+    // Curated high-resolution Mumbai / urban real-estate images for first 31 developers
+    const CURATED_IMAGES = {
+      "Lodha": [
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Seth Developers": [
+        "https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Prestige Group": [
+        "https://images.unsplash.com/photo-1516156008625-3a9d6067fab5?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1486304873000-235643847519?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1517887121-3a9dfdddfd3e?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Kalpataru Builders": [
+        "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Arkade Developers": [
+        "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1556912998-c57cc6b63cd7?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Gowda Realty": [
+        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Modi Spaces": [
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Hiranandani": [
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1505691723518-36a1b2b44b7f?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1516156008625-3a9d6067fab5?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "New India": [
+        "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Concord Developers": [
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Srushti Builders": [
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Samarth Group": [
+        "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Mayfair": [
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Rustomjee": [
+        "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1486304873000-235643847519?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Oberoi Realties": [
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Neelkanth Group": [
+        "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1517887121-3a9dfdddfd3e?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Godrej Properties": [
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Brigade Group": [
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Mahindra Life Spaces": [
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Suntek Realy": [
+        "https://images.unsplash.com/photo-1516156008625-3a9d6067fab5?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "K Raheja": [
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "L&T": [
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "DLF": [
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Runwal": [
+        "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Paranjpe": [
+        "https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1516156008625-3a9d6067fab5?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Wascon": [
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "J P Infra": [
+        "https://images.unsplash.com/photo-1486304873000-235643847519?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1556912998-c57cc6b63cd7?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Shapurji Palonji": [
+        "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1505691723518-36a1b2b44b7f?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Casa Grande": [
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1517887121-3a9dfdddfd3e?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "Century Real Estate": [
+        "https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "India Bulls": [
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1200&q=80"
+      ]
+    };
+
+    // helper to generate simple SVG logo placeholders (initials + color)
+    function getLogoFor(name){
+      const initials = name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+      const colors = ['#D4A037','#1E4DB7','#2B63D4','#C58E2D','#0F1724'];
+      const color = colors[name.length % colors.length];
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><rect width='100%' height='100%' rx='12' fill='${color}'/><text x='50%' y='55%' font-size='48' font-family='Arial' fill='#fff' text-anchor='middle' alignment-baseline='middle' font-weight='700'>${initials}</text></svg>`;
+      return 'data:image/svg+xml;utf8,'+encodeURIComponent(svg);
+    }
+
+    // Global fallback image in case a curated image is inappropriate or 404s
+    const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80';
+
+    // Utility to safely set image src with fallback
+    function setImgSafe(imgElement, src){
+      imgElement.src = src;
+      imgElement.onerror = function(){ imgElement.src = FALLBACK_IMAGE; };
+    }
+
+    // --- Mock data generation (500 developers * 2 properties)
+    const DEVELOPERS = [];
+    const DEV_COUNT = 500; // adjustable
+    const PROPS_PER_DEV = 2;
+    for(let d=1; d<=DEV_COUNT; d++){
+      const devName = (d-1) < NAMES.length ? NAMES[d-1] : 'Developer '+d;
+      const dev = { id: 'dev'+d, name: devName, short: 'Trusted builder', logoSeed: 'logo'+d, properties: [] };
+      for(let p=1;p<=PROPS_PER_DEV;p++){
+        const pid = 'dev'+d+'-p'+p;
+        const price = Math.round((Math.random()*4 + 0.5)*100)/100; // in crores approx
+        let imgUrl;
+        if (CURATED_IMAGES[devName]) {
+          imgUrl = CURATED_IMAGES[devName][(p-1) % CURATED_IMAGES[devName].length];
+        } else {
+          imgUrl = `https://source.unsplash.com/800x480/?mumbai,building,apartment,highrise,architecture,real-estate&sig=${d*10+p}`;
+        }
+        dev.properties.push({ id: pid, title: 'Project '+p+' — '+dev.name, priceCrore: price, imgSeed: (d*10+p), imgUrl });
+      }
+      DEVELOPERS.push(dev);
+    }
+
+    // DOM references
+    const hall = document.getElementById('hall');
+    const devCountEl = document.getElementById('devCount');
+    const propCountEl = document.getElementById('propCount');
+    const featured = document.getElementById('featured');
+    const modal = document.getElementById('modal');
+    const stallName = document.getElementById('stallName');
+    const stallTag = document.getElementById('stallTag');
+    const stallLogo = document.getElementById('stallLogo');
+    const carousel = document.getElementById('carousel');
+    const propertiesArea = document.getElementById('propertiesArea');
+    const enquiryForm = document.getElementById('enquiryForm');
+    const propertySelect = document.getElementById('propertySelect');
+    const leadList = document.getElementById('leadList');
+
+    let LEADS = JSON.parse(localStorage.getItem('mpe_leads')||'[]');
+
+    function renderHall(){
+      hall.innerHTML='';
+      DEVELOPERS.forEach(dev=>{
+        const el = document.createElement('div'); el.className='booth';
+        // Use inline onerror fallback for thumbnails
+        el.innerHTML = `<div class="dev-name">${dev.name}</div><div class="projects">${dev.properties.map(p=>`<img class="project-thumb" src="${p.imgUrl}" loading="lazy" onerror="this.src='${FALLBACK_IMAGE}'">`).join('')}</div>`;
+        el.addEventListener('click',()=>openStall(dev));
+        hall.appendChild(el);
+      });
+      devCountEl.textContent = DEVELOPERS.length;
+      propCountEl.textContent = DEVELOPERS.length * PROPS_PER_DEV;
+    }
+
+    function renderFeatured(){
+      featured.innerHTML='';
+      // pick 8 random properties
+      const props = [];
+      for(let i=0;i<8;i++){ const d = DEVELOPERS[Math.floor(Math.random()*DEVELOPERS.length)]; props.push(d.properties[Math.floor(Math.random()*d.properties.length)]); }
+      props.forEach(p=>{
+        const card = document.createElement('div'); card.style.background='white'; card.style.padding='10px'; card.style.borderRadius='10px'; card.style.boxShadow='0 8px 18px rgba(16,24,40,0.04)';
+        card.innerHTML = `<img src="${p.imgUrl}" style="width:100%;height:140px;object-fit:cover;border-radius:8px" onerror="this.src='${FALLBACK_IMAGE}'"><div style="font-weight:700;margin-top:8px">${p.title}</div><div style="color:#666;margin-top:6px">Starting ₹${p.priceCrore} Cr</div><div style="margin-top:8px"><button class='primary' onclick='openProperty("${p.id}")'>View</button></div>`;
+        featured.appendChild(card);
+      });
+    }
+
+    function openStall(dev){
+      stallName.textContent = dev.name;
+      stallTag.textContent = `${dev.properties.length} project(s) on display`;
+      stallLogo.innerHTML = `<img src="${getLogoFor(dev.name)}" style="width:72px;height:72px;border-radius:8px;object-fit:cover">`;
+      // carousel
+      carousel.innerHTML = '';
+      dev.properties.forEach(p=>{
+        const img = document.createElement('img'); setImgSafe(img, p.imgUrl); carousel.appendChild(img);
+      });
+      // list properties
+      propertiesArea.innerHTML = '';
+      propertySelect.innerHTML = '';
+      dev.properties.forEach(p=>{
+        const card = document.createElement('div'); card.className='property-card';
+        card.innerHTML = `<div style='font-weight:700'>${p.title}</div><div style='color:#666;margin-top:6px'>Price: ₹${p.priceCrore} Cr</div><div style='margin-top:8px'><button class='primary' onclick='requestVisit("${dev.id}","${p.id}")'>Request Site Visit</button> <button class='secondary' onclick='quickEnquire("${dev.id}","${p.id}")'>Enquire</button></div>`;
+        propertiesArea.appendChild(card);
+        const opt = document.createElement('option'); opt.value = p.id; opt.textContent = p.title; propertySelect.appendChild(opt);
+      });
+
+      modal.classList.add('open');
+    }
+
+    function closeStall(){ modal.classList.remove('open'); }
+
+    function requestVisit(devId, propId){ alert('A site visit request has been created for '+propId+' with '+devId+' — complete the enquiry form to send contact details.'); }
+    function quickEnquire(devId, propId){ propertySelect.value = propId; document.getElementById('buyerName').focus(); }
+
+    enquiryForm.addEventListener('submit',(ev)=>{
+      ev.preventDefault();
+      const name = document.getElementById('buyerName').value.trim();
+      const phone = document.getElementById('buyerPhone').value.trim();
+      const propId = propertySelect.value;
+      const msg = document.getElementById('buyerMsg').value.trim();
+      if(!phone){ alert('Please enter mobile number'); return; }
+      const lead = { id:'lead_'+Date.now(), name, phone, propId, msg, date:new Date().toISOString() };
+      LEADS.push(lead);
+      localStorage.setItem('mpe_leads', JSON.stringify(LEADS));
+      renderLeads();
+      alert('Enquiry sent — developer will be notified');
+      enquiryForm.reset();
+    });
+
+    function renderLeads(){
+      if(LEADS.length===0){ leadList.innerHTML = 'No leads yet'; return; }
+      leadList.innerHTML = '';
+      LEADS.slice().reverse().forEach(l=>{
+        const el = document.createElement('div'); el.style.padding='6px'; el.style.borderBottom='1px solid #f0f0f0'; el.innerHTML = `<div style='font-weight:700'>${l.name || 'Anonymous'} — ${l.phone}</div><div style='font-size:12px;color:#666'>Property: ${l.propId} • ${new Date(l.date).toLocaleString()}</div>`;
+        leadList.appendChild(el);
+      });
+    }
+
+    document.getElementById('closeStall').addEventListener('click',closeStall);
+    document.getElementById('enterHall').addEventListener('click',()=>{ document.getElementById('mode').textContent='Stalls view'; window.scrollTo({top:document.getElementById('expoArea').offsetTop,behavior:'smooth'}) });
+    document.getElementById('downloadLeads').addEventListener('click',()=>{
+      if(LEADS.length===0){ alert('No leads to download'); return; }
+      const blob = new Blob([JSON.stringify(LEADS, null, 2)],{type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'mpe_leads.json'; a.click(); URL.revokeObjectURL(url);
+    });
+
+    window.openProperty = function(pid){ alert('Previewing '+pid+' (prototype)'); }
+
+    // Search and filter
+    document.getElementById('search').addEventListener('input', (e)=>{
+      const q = e.target.value.toLowerCase(); hall.querySelectorAll('.booth').forEach((b, i)=>{
+        const dev = DEVELOPERS[i]; const match = dev.name.toLowerCase().includes(q) || dev.properties.some(p=>p.title.toLowerCase().includes(q)); b.style.display = match? 'block' : 'none';
+      });
+    });
+    document.getElementById('filter').addEventListener('change', (e)=>{
+      renderFeatured();
+    });
+
+    // initial render
+    renderHall(); renderFeatured(); renderLeads();
+  </script>
+</body>
+</html>

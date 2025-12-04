@@ -1,0 +1,91 @@
+
+
+ I need to fix/enhance some functionality rest of the functionality intact.
+Let me spell out the enhancements. Needless to say all enhancements and new features shall be responsive and mobile first.
+#1: The Search By Location, Search By Developer and Hot Deals text in the HTML shall change to
+Locations, Developers and Hot Deals. And these link shall display in one row, even in mobile device.
+#2: When the page loads, show only the banner. All other divs including links shall be hidden. Show a div by name "otp-screen".
+In that Div, put following text.
+Welcome To Mumbai Property Exhibition. Visit projects across Mumbai that suit your requirements. 
+Chosse from over 100+ developers and 500+ Developers.
+
+Below that show a box, with following radio options
+Budget :  < 1 Cr, 1 to 1.5 Cr, 1.5 to 2 Cr, 2 to 2.5 Cr, 2.5 to 3 Cr, 3 Cr+, All. By default, the All option shall be selected.
+And a next arrow (next-arrow.png). On click of this next-arrow,This Budget box shall disappear and show a typical but esthetically apealing OTP box. It will contain :
+A test field, that will have a faded text "Mobile #" and a cylindrical red button with name "Send OTP".No need to check whether a 10 digit number was entered. This is only a dummy prototype.
+Any single character in the field is enough.
+On click of Send OTP button, Another text field shall appear below the mobile# text field. There stall be default faded test "OTP" in this text box, and the Send OTP button's name shall change to "Resend OTP".
+Next to this OTP text box, there shall be another red cylindrical button by name "Enter the Exhibition". This button shall enable only when the user entered some text, at least one character in the otp text field.
+All the above fields and boxes shall be within the otp-screen div. Any one character in the OTP field is enough.
+#2: As soon as "Enter the Exhibition" is clicked, the otp-screen-div shall disappear and the link div that shows Locations, Developers and Hot Deals shall appear.
+Also set a hidden field in the page, by the name otp-verified and set it to yes weh the user clicked Enter Exhibition. As long as otp-verified field is "yes", the user shall never see the otp-screen div again.
+That means, the otp-screen functionality shall be visible only when the page loads. And it must be shown every time the page is refreshed.
+
+#3: In the existing functionality, when projects-div is displayed, it shows 10 image-placeholder divs. Instead of 10, let's show only 6.
+All other logic shall remain the same, just change the number of divs from 10 to 6.
+And these 6 divs, when seen on mobile device shall be two on a row.
+#4: Within the project-details-div, there shall be one image displayed at a time.
+The existing logic is : The name of this image will be = id of the image that was clicked within the projects-div in previous step +
+i+".jpg. i will change from 1 to 5. SO for example, if the projects-div, if image "Project-001" was clicked, that opened the project-details-div, then 
+the image rendered in this divs shall be Project-0011.jpg. On click of Next Arrow, it shall display Project-0012.jpg, and so on.
+The next arrow will work till Project-0014.jpg is shown. On Project-0015.jpg, only Previous Arrow will be available. The Previous-Arrow shall display the previous image. On Project-0011.jpg, there shall be no previous arrow.
+This logic needs to change to following :
+Replace this logic with following logic :
+When Projects-div is made visible, consider following collections 
+project1[]=[Project1-1,Project1-2,Project1-3,Project1-4,Project1-5]
+project2[]=[Project2-1,Project2-2,Project2-3,Project2-4,Project2-5]
+project3[]=[Project3-1,Project3-2,Project3-3,Project3-4,Project3-5]
+project4[]=[Project4-1,Project4-2,Project4-3,Project4-4,Project4-5]
+project5[]=[Project5-1,Project5-2,Project5-3,Project5-4,Project5-5]
+Within the project-details-div, there shall be one image displayed at a time.
+The name of this image will be any random name from the collection projects1[]+".jpg. On click of Next Arrow
+it shall display any random name from the collection projects2[]+".jpg" and so on for each nexxt-arrow click.
+Thus fifth image will be any random name from the collection projects5[]+".jpg. When the fifth image is displayed, there shall be no next-arrow. Only previous arrow.
+The logic of next and previous shall work seamlessly in this project-details-div
+#5: When any button within the developers-div is clicked, the functionality of displaying projects-developer-div shall remain as is.
+Just make sure that in the mobile device, there are two projects shown in a row.
+
+
+#6:When projects-developer-div is made visible, select any random 5 names from projects[] collection, and set id of each image-placeholder div by the selected value from projects[] collection.
+Also, insie the image-placeholder of this div put an "<img src= <the id of the div>+".png">. 
+Most importantly, below the project image, it should print the name of the project, which is same as the id of the image-placeholder-div  within which it is displayed.
+This is existing functionality and shall work as is.
+#5: Now from the projects-developer-div, when any of the image-placeholder div is clicked, it shall make all other divs hidden and display only the project-details-div. 
+The previous-link shall work just as it works in suburb-div or projects-div.
+I assume the functionality you'll code for #4,project-details-div,  will work as is.
+
+#6: The existing functionality of Hot Deals link is -
+ When hot-deals-div is made visible, within the image-gird of this div, there are 20 image-placeholder
+divs. Select any 20 random projects from the  projects[] collection, and set id of each image-placeholder div by the selected value from projects[] collection.
+Also, insie the image-placeholder of this div put an "<img src= <the id of the div>+".png">
+Most importantly, below the project image, it should print the name of the project, which is same as the id of the image-placeholder-div  within which it is displayed.
+The only change required here is, instead of 20 image place holders, put 5 image-placeholders. Everything else shall remain the same. And in a mobile device,
+two projects shall show up in a row.
+#5: Now from the hot-deals-div, when any of the image-placeholder div is clicked, it makes all other divs hidden and displays only the project-details-div. 
+The previous-link shall work just as it works in suburb-div or projects-div. This is existing functionality. Needless to say it must be retained.
+I assume the functionality you'll code for #4, project-details-div,  will work as is.
+
+Please provide full html, css and js code.
+
+OK. This is much better. Now time for some enhancements. Please note that Rest all functionality must be retained as is.
+#1: In the existing functionality, when projects-div is displayed, it shows 10 image-placeholder divs. Instead of 10, let's show only 6.
+All other logic shall remain the same, just change the number of divs from 10 to 6.
+#2:When within the projects-div, an image-placeholder div is clicked, project-details-div is displayed. Now consider following collections
+consider following collections 
+project1[]=[Project1-1,Project1-2,Project1-3,Project1-4,Project1-5]
+project2[]=[Project2-1,Project2-2,Project2-3,Project2-4,Project2-5]
+project3[]=[Project3-1,Project3-2,Project3-3,Project3-4,Project3-5]
+project4[]=[Project4-1,Project4-2,Project4-3,Project4-4,Project4-5]
+project5[]=[Project5-1,Project5-2,Project5-3,Project5-4,Project5-5]
+Within the project-details-div, there shall be one image displayed at a time.
+The name of this image will be any random name from the collection projects1[]+".jpg. On click of Next Arrow
+it shall display any random name from the collection projects2[]+".jpg" and so on for each nexxt-arrow click.
+Thus fifth image will be any random name from the collection projects5[]+".jpg. When the fifth image is displayed, there shall be no next-arrow. Only previous arrow.
+The logic of next and previous shall work seamlessly in this project-details-div.
+So you'll have to change the display logic of project-details-div.
+#3: When projects-developer-div is made visible, ( when user clicked any of the buttons in the developers-div), 5 image-placeholder divs are shown.
+On click of any of these image-placeholder div, again project-details-div shall be displayed. The display logic remains the same as in #2.
+#4: When Hot Deals link is clicked, instead of existing display of 20 image-placeholder divs, lets display 5 image-placeholder divs. Again the naming convention and image display, image id/name shall remain the same.
+On click of any of these 5 image-placeholder divs, again the same logic of project-details-div display as mentioned in #2 will continue.
+
+Please provide the updated HTML, CSS and JS, full files. Please note that within the html, use script8.js and styles8.css.
