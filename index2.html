@@ -879,74 +879,77 @@
     };
 
     // ---- NEW: Gallery slide set matching your 10 requirements + form ----
-    var GALLERY_SLIDES = [
-      {
-        type: 'image',
-        label: 'Signature residential tower',
-        // 1. Beautiful residential tower
-        url: 'https://source.unsplash.com/1600x900/?luxury,residential,tower,apartment,building'
-      },
-      {
-        type: 'image',
-        label: 'Grand entrance lobby',
-        // 2. Entrance lobby
-        url: 'https://source.unsplash.com/1600x900/?apartment,entrance,lobby,marble'
-      },
-      {
-        type: 'image',
-        label: 'Landscaped gardens and open spaces',
-        // 3. Garden
-        url: 'https://source.unsplash.com/1600x900/?apartment,garden,landscaped,green'
-      },
-      {
-        type: 'image',
-        label: 'Amenity floor — gym & clubhouse',
-        // 4. Amenity floor (gym etc.)
-        url: 'https://source.unsplash.com/1600x900/?apartment,gym,clubhouse,amenities,pool'
-      },
-      {
-        type: 'image',
-        label: 'Location connectivity map (illustrative)',
-        // 5. Map / location
-        url: 'https://source.unsplash.com/1600x900/?city,map,location,pin'
-      },
-      {
-        type: 'image',
-        label: 'Living room — sample interior',
-        // 6. Living room
-        url: 'https://source.unsplash.com/1600x900/?apartment,living-room,interior,sofa'
-      },
-      {
-        type: 'image',
-        label: 'Bedroom — sample interior',
-        // 7. Bedroom
-        url: 'https://source.unsplash.com/1600x900/?apartment,bedroom,interior,bed'
-      },
-      {
-        type: 'image',
-        label: 'Kitchen — sample interior',
-        // 8. Kitchen
-        url: 'https://source.unsplash.com/1600x900/?apartment,kitchen,modular,interior'
-      },
-      {
-        type: 'image',
-        label: 'Bathroom & sanitary fittings',
-        // 9. Bathroom
-        url: 'https://source.unsplash.com/1600x900/?apartment,bathroom,interior,tiles'
-      },
-      {
-        type: 'image',
-        label: 'Indicative 2 BHK layout / floor plan',
-        // 10. 2 BHK design / layout
-        url: 'https://source.unsplash.com/1600x900/?apartment,floorplan,blueprint,layout'
-      },
-      {
-        type: 'form',
-        label: 'Share your details and the sales team will reach out.',
-        // 11. Enquiry form slide
-        url: ''
-      }
-    ];
+    // 10 curated static images (tower, lobby, garden, amenities, map, living, bedroom,
+// kitchen, bathroom, 2 BHK layout) + 1 enquiry form slide
+var GALLERY_SLIDES = [
+  {
+    type: 'image',
+    label: 'Signature residential tower',
+    // 1. Beautiful residential tower
+    url: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1400&q=80'
+  },
+  {
+    type: 'image',
+    label: 'Grand entrance lobby',
+    // 2. Entrance lobby
+    url: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1400&q=80'
+  },
+  {
+    type: 'image',
+    label: 'Landscaped gardens and open spaces',
+    // 3. Garden
+    url: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80'
+  },
+  {
+    type: 'image',
+    label: 'Amenity floor — gym & clubhouse',
+    // 4. Amenity floor (gym etc.)
+    url: 'https://images.unsplash.com/photo-1517832207067-4db24a2ae47c?auto=format&fit=crop&w=1400&q=80'
+  },
+  {
+    type: 'image',
+    label: 'Location connectivity map (illustrative)',
+    // 5. Map / location
+    url: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1400&q=80'
+  },
+  {
+    type: 'image',
+    label: 'Living room — sample interior',
+    // 6. Living room
+    url: 'https://images.unsplash.com/photo-1505691723518-36a1b2b44b7f?auto=format&fit=crop&w=1400&q=80'
+  },
+  {
+    type: 'image',
+    label: 'Bedroom — sample interior',
+    // 7. Bedroom
+    url: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1400&q=80'
+  },
+  {
+    type: 'image',
+    label: 'Kitchen — sample interior',
+    // 8. Kitchen
+    url: 'https://images.unsplash.com/photo-1505691723518-36a1b2b44b7f?auto=format&fit=crop&w=1400&q=80'
+  },
+  {
+    type: 'image',
+    label: 'Bathroom & sanitary fittings',
+    // 9. Bathroom
+    url: 'https://images.unsplash.com/photo-1505691723518-36a1b2b44b7f?auto=format&fit=crop&w=1400&q=80'
+  },
+  {
+    type: 'image',
+    label: 'Indicative 2 BHK layout / floor plan',
+    // 10. 2 BHK design / layout
+    url: 'https://images.unsplash.com/photo-1523217582562-09d0def993a6?auto=format&fit=crop&w=1400&q=80'
+  },
+  {
+    type: 'form',
+    label: 'Share your details and the sales team will reach out.',
+    // 11. Enquiry form slide
+    url: ''
+  }
+];
+
 
     function getLogoFor(name){
       var parts = name.split(' ');
@@ -1171,25 +1174,31 @@
     }
 
     function showCurrentSlide(){
-      var slide = currentGallerySlides[currentSlideIndex];
-      if (!slide) return;
+  var slide = currentGallerySlides[currentSlideIndex];
+  if (!slide) return;
 
-      if (slide.type === 'image'){
-        galleryImage.style.display = 'block';
-        galleryFormSlide.style.display = 'none';
-        galleryImage.src = slide.url;
-      } else {
-        galleryImage.style.display = 'none';
-        galleryFormSlide.style.display = 'block';
-      }
-      galleryCaption.textContent = (currentSlideIndex+1) + '/' + currentGallerySlides.length + ' — ' + slide.label;
+  if (slide.type === 'image'){
+    galleryImage.style.display = 'block';
+    galleryFormSlide.style.display = 'none';
+    galleryImage.onerror = function(){
+      // If any gallery URL fails, show a safe tower image
+      this.src = FALLBACK_IMAGE;
+    };
+    galleryImage.src = slide.url;
+  } else {
+    galleryImage.style.display = 'none';
+    galleryFormSlide.style.display = 'block';
+  }
 
-      var dots = galleryDots.getElementsByClassName('gallery-dot');
-      for (var i=0;i<dots.length;i++){
-        if (i===currentSlideIndex){ dots[i].classList.add('active'); }
-        else { dots[i].classList.remove('active'); }
-      }
-    }
+  galleryCaption.textContent =
+    (currentSlideIndex+1) + '/' + currentGallerySlides.length + ' — ' + slide.label;
+
+  var dots = galleryDots.getElementsByClassName('gallery-dot');
+  for (var i=0;i<dots.length;i++){
+    if (i===currentSlideIndex){ dots[i].classList.add('active'); }
+    else { dots[i].classList.remove('active'); }
+  }
+}
 
     function prevSlide(){
       if (currentGallerySlides.length===0) return;
