@@ -665,7 +665,7 @@
     </div>
   </div>
 
-  <!-- Gallery modal: 10 images + 1 map + enquiry form slide -->
+  <!-- Gallery modal: 10 images + enquiry form slide -->
   <div class="gallery-modal" id="galleryModal">
     <div class="gallery-content">
       <div class="gallery-header">
@@ -878,66 +878,72 @@
       ]
     };
 
-    // Gallery slide set (same curated images reused for all projects for now)
+    // ---- NEW: Gallery slide set matching your 10 requirements + form ----
     var GALLERY_SLIDES = [
       {
         type: 'image',
         label: 'Signature residential tower',
-        url: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1400&q=80'
+        // 1. Beautiful residential tower
+        url: 'https://source.unsplash.com/1600x900/?luxury,residential,tower,apartment,building'
       },
       {
         type: 'image',
         label: 'Grand entrance lobby',
-        url: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1400&q=80'
+        // 2. Entrance lobby
+        url: 'https://source.unsplash.com/1600x900/?apartment,entrance,lobby,marble'
       },
       {
         type: 'image',
         label: 'Landscaped gardens and open spaces',
-        url: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80'
+        // 3. Garden
+        url: 'https://source.unsplash.com/1600x900/?apartment,garden,landscaped,green'
       },
       {
         type: 'image',
         label: 'Amenity floor — gym & clubhouse',
-        url: 'https://images.unsplash.com/photo-1517832207067-4db24a2ae47c?auto=format&fit=crop&w=1400&q=80'
+        // 4. Amenity floor (gym etc.)
+        url: 'https://source.unsplash.com/1600x900/?apartment,gym,clubhouse,amenities,pool'
       },
       {
         type: 'image',
         label: 'Location connectivity map (illustrative)',
-        url: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1400&q=80'
+        // 5. Map / location
+        url: 'https://source.unsplash.com/1600x900/?city,map,location,pin'
       },
       {
         type: 'image',
         label: 'Living room — sample interior',
-        url: 'https://images.unsplash.com/photo-1505691723518-36a1b2b44b7f?auto=format&fit=crop&w=1400&q=80'
+        // 6. Living room
+        url: 'https://source.unsplash.com/1600x900/?apartment,living-room,interior,sofa'
       },
       {
         type: 'image',
         label: 'Bedroom — sample interior',
-        url: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1400&q=80'
+        // 7. Bedroom
+        url: 'https://source.unsplash.com/1600x900/?apartment,bedroom,interior,bed'
       },
       {
         type: 'image',
         label: 'Kitchen — sample interior',
-        url: 'https://images.unsplash.com/photo-1505691723518-36a1b2b44b7f?auto=format&fit=crop&w=1400&q=80'
+        // 8. Kitchen
+        url: 'https://source.unsplash.com/1600x900/?apartment,kitchen,modular,interior'
       },
       {
         type: 'image',
-        label: 'Bath & sanitary fittings',
-        url: 'https://images.unsplash.com/photo-1505691723518-36a1b2b44b7f?auto=format&fit=crop&w=1400&q=80'
+        label: 'Bathroom & sanitary fittings',
+        // 9. Bathroom
+        url: 'https://source.unsplash.com/1600x900/?apartment,bathroom,interior,tiles'
       },
       {
         type: 'image',
-        label: 'Indicative 2 BHK floor plan',
-        url: 'https://images.unsplash.com/photo-1523217582562-09d0def993a6?auto=format&fit=crop&w=1400&q=80'
-      },
-      {
-        type: 'image',
-        label: 'Evening ambience & lighting',
-        url: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1400&q=80'
+        label: 'Indicative 2 BHK layout / floor plan',
+        // 10. 2 BHK design / layout
+        url: 'https://source.unsplash.com/1600x900/?apartment,floorplan,blueprint,layout'
       },
       {
         type: 'form',
         label: 'Share your details and the sales team will reach out.',
+        // 11. Enquiry form slide
         url: ''
       }
     ];
